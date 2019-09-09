@@ -6,9 +6,10 @@ defmodule Exaggerate.Mixfile do
     [
       app: :exaggerate,
       version: "0.1.0",
-      elixir: "~> 1.6-dev",
+      elixir: "~> 1.8",
       start_permanent: Mix.env == :prod,
       deps: deps(),
+      dialyzer: [plt_add_apps: [:mix]]
     ]
   end
 
@@ -18,7 +19,10 @@ defmodule Exaggerate.Mixfile do
 
   defp deps do
     [
-      {:exonerate, git: "https://github.com/rstorsauce/exonerate.git"},
+      {:dialyxir, "~> 1.0.0-rc.4", only: :dev, runtime: false},
+      {:plug_cowboy, "~> 1.0"},
+      {:exonerate, git: "https://github.com/rstorlabs/exonerate.git", branch: "use_macros"},
+      {:httpoison, "~> 1.4", only: :test},
       {:jason, "~> 1.1"},
       {:plug, "~> 1.7"},
     ]
