@@ -55,7 +55,7 @@ from the swaggerfile prefix.
     [
       {:cowboy, "~> 1.0.0", only: :test},
       {:exaggerate, git: "https://github.com/ityonemo/exaggerate.git"},
-      {:yamilixir, "~> 1.0"}  # if you want to read yaml files
+      {:yaml_elixir, "~> 2.4"}  # if you want to read yaml files
     ]
   end
 ```
@@ -63,6 +63,9 @@ from the swaggerfile prefix.
 If you want to use yaml as your input format, you'll have to include a YAML
 parser.  This library defaults to "yamilixir" but you can specify your own
 by setting the `:yaml_parser` application variable.
+
+Note that if you use a yaml file, you cannot have your error codes be numerical
+literals, they must be surrounded by quotation marks.
 
 - modified application.ex settings
 

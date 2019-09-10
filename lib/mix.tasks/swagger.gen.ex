@@ -64,8 +64,8 @@ defmodule Mix.Tasks.Swagger.Gen do
     |> File.write!(validator_code)
   end
 
-  @yaml_decoder Application.get_env(:exaggerate, :yaml_parser, Yamlixir)
-
+  @yaml_mod Application.get_env(:exaggerate, :yaml_parser_mod, YamlElixir)
+  @yaml_fn  Application.get_env(:exaggerate, :yaml_parser_fn, :read_from_string!)
   def load_from(swaggerfile) do
     cond do
       swaggerfile =~ ~r/\.json$/ ->
@@ -83,10 +83,11 @@ defmodule Mix.Tasks.Swagger.Gen do
         basename = Path.basename(swaggerfile, ".yaml")
 
         # decode the swagger file into a an Elixir spec_map
-        spec_map = swaggerfile
+        yaml = swaggerfile
         |> Path.expand
         |> File.read!
-        |> @yaml_decoder.decode!
+
+        spec_map = apply(@yaml_mod, @yaml_fn, yaml)
 
         {basename, spec_map}
     end
