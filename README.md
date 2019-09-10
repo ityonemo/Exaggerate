@@ -2,9 +2,6 @@
 
 ** A OpenAPI (swagger) -> Plug code generator for Elixir **
 
-
-Currently only supports JSON OpenAPI specs.
-
 Works in progress:
 
 - `mix swagger.update`
@@ -56,11 +53,16 @@ from the swaggerfile prefix.
 
   defp deps do
     [
-      {:cowboy, "~> 1.0.0"},
-      {:Exaggerate, git: "https://github.com/rstorsauce/exaggerate.git", tag: "master"},
+      {:cowboy, "~> 1.0.0", only: :test},
+      {:exaggerate, git: "https://github.com/ityonemo/exaggerate.git"},
+      {:yamilixir, "~> 1.0"}  # if you want to read yaml files
     ]
   end
 ```
+
+If you want to use yaml as your input format, you'll have to include a YAML
+parser.  This library defaults to "yamilixir" but you can specify your own
+by setting the `:yaml_parser` application variable.
 
 - modified application.ex settings
 
