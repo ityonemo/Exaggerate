@@ -6,6 +6,7 @@ defmodule Mix.Tasks.Swagger.Update do
   alias Exaggerate.Tools
   alias Exaggerate.Updater
   alias Exaggerate.Validator
+  alias Mix.Tasks.Swagger.Gen
 
   @shortdoc "updates an api from the supplied swaggerfile(s)"
   def run(params) do
@@ -16,7 +17,7 @@ defmodule Mix.Tasks.Swagger.Update do
       Mix.raise("No file error: can't find #{swaggerfile}")
     end
 
-    {basename, spec_map} = load_from(swaggerfile)
+    {basename, spec_map} = Gen.load_from(swaggerfile)
 
     # retrieve the app name.
     appname = Mix.Project.get()
@@ -70,34 +71,6 @@ defmodule Mix.Tasks.Swagger.Update do
     module_dir
     |> Path.join("validator.ex")
     |> File.write!(validator_code)
-  end
-
-  @yaml_decoder Application.get_env(:exaggerate, :yaml_parser, Yamilixir)
-
-  def load_from(swaggerfile) do
-    cond do
-      swaggerfile =~ ~r/\.json$/ ->
-        basename = Path.basename(swaggerfile, ".json")
-
-        # decode the swagger file into a an Elixir spec_map
-        spec_map = swaggerfile
-        |> Path.expand
-        |> File.read!
-        |> Jason.decode!
-
-        {basename, spec_map}
-
-      swaggerfile =~ ~r/\.yaml$/ ->
-        basename = Path.basename(swaggerfile, ".yaml")
-
-        # decode the swagger file into a an Elixir spec_map
-        spec_map = swaggerfile
-        |> Path.expand
-        |> File.read!
-        |> @yaml_decoder.decode!
-
-        {basename, spec_map}
-    end
   end
 end
 
