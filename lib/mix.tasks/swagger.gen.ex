@@ -87,7 +87,7 @@ defmodule Mix.Tasks.Swagger.Gen do
         |> Path.expand
         |> File.read!
 
-        spec_map = apply(@yaml_mod, @yaml_fn, yaml)
+        spec_map = apply(@yaml_mod, @yaml_fn, [yaml])
 
         {basename, spec_map}
     end

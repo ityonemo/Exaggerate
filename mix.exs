@@ -19,12 +19,12 @@ defmodule Exaggerate.Mixfile do
 
   defp deps do
     [
-      {:dialyxir, "~> 1.0.0-rc.4", only: :dev, runtime: false},
-      {:plug_cowboy, "~> 1.0"},
+      {:dialyxir, "~> 1.0.0-rc.6", only: :dev, runtime: false},
+      {:plug_cowboy, "~> 2.1"},
       {:exonerate, git: "https://github.com/ityonemo/exonerate.git"},
-      {:httpoison, "~> 1.4", only: :test},
+      {:httpoison, "~> 1.5", only: :test},
       {:jason, "~> 1.1"},
-      {:plug, "~> 1.7"},
+      {:plug, "~> 1.8"},
     ]
   end
 end
