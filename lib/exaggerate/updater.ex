@@ -4,9 +4,9 @@ defmodule Exaggerate.Updater do
   alias Exaggerate.Endpoint
   alias Exaggerate.Tools
 
-  @spec update_router(String.t, String.t, String.t)::String.t
-  def update_router(modulebase, code, json) do
-    new_code = [header(modulebase), preamble(code), routes(json), postamble(code)]
+  @spec update_router(String.t, String.t, map)::String.t
+  def update_router(modulebase, code, swaggermap) do
+    new_code = [header(modulebase), preamble(code), routes(swaggermap), postamble(code)]
     |> Enum.join("\n")
     |> Code.format_string!(locals_without_parens: [plug: :*])
     |> Enum.join
@@ -14,10 +14,8 @@ defmodule Exaggerate.Updater do
     new_code <> "\n"
   end
 
-  @spec update_endpoint(String.t, String.t)::String.t
-  def update_endpoint(code, json) do
-
-    swagger_map = Jason.decode!(json)
+  @spec update_endpoint(String.t, map)::String.t
+  def update_endpoint(code, swagger_map) do
     existing_calls = find_calls(code)
 
     new_code = swagger_map
@@ -133,10 +131,9 @@ defmodule Exaggerate.Updater do
   ##########################################################
   ## ROUTER ROUTES FUNCTIONS
 
-  @spec routes(String.t)::String.t
-  def routes(swaggercode) do
-    swaggercode
-    |> Jason.decode!
+  @spec routes(map)::String.t
+  def routes(swaggermap) do
+    swaggermap
     |> Map.get("paths")
     |> Enum.flat_map(&Tools.unpack_route(&1, Exaggerate.Router))
     |> Enum.map(&AST.to_string/1)

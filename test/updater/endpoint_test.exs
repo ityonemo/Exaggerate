@@ -1,7 +1,7 @@
 defmodule ExaggerateTest.Updater.EndpointTest do
   use ExUnit.Case
 
-  @updated_routes """
+  @updated_routes Jason.decode!("""
   {
     "openapi": "3.0",
     "info": {
@@ -39,7 +39,7 @@ defmodule ExaggerateTest.Updater.EndpointTest do
       }
     }
   }
-  """
+  """)
 
   @starting_code """
   #
@@ -91,11 +91,7 @@ defmodule ExaggerateTest.Updater.EndpointTest do
 
   describe "code analysis components work as expected" do
     test "list endpoints" do
-      endpoints = @updated_routes
-      |> Jason.decode!
-      |> Exaggerate.Updater.list_endpoints
-
-      assert ["bar", "foo"] == endpoints
+      assert ["bar", "foo"] == Exaggerate.Updater.list_endpoints(@updated_routes)
     end
 
     test "find calls" do

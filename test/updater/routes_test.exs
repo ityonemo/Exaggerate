@@ -3,7 +3,7 @@ defmodule ExaggerateTest.Updater.RoutesTest do
 
   @moduletag :updater
 
-  @updated_routes """
+  @updated_routes Jason.decode!("""
   {
     "openapi": "3.0",
     "info": {
@@ -41,7 +41,7 @@ defmodule ExaggerateTest.Updater.RoutesTest do
       }
     }
   }
-  """
+  """)
 
   @starting_code """
   defmodule Test.TestApiWeb.Router do
