@@ -135,6 +135,16 @@ defmodule Exaggerate.Tools do
   def get_body(conn) do
     validate_content(conn.body_params, "content")
   end
+  def get_body(conn, _) do
+    # plug doesn't let you fetch body parameters individually.
+    # it's all or nothing, so we should ignore the content tag.
+    validate_content(conn.body_params, "content")
+  end
+  def get_body(conn, _, _) do
+    # plug doesn't let you fetch body parameters individually.
+    # it's all or nothing, so we should ignore the content tag.
+    validate_content(conn.body_params, "content")
+  end
 
   ###############################################################
   ## general helper utility functions

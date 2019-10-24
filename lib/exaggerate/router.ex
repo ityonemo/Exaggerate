@@ -23,7 +23,7 @@ defmodule Exaggerate.Router do
   def route({path!, verb}, spec) do
     do_block = %__MODULE__{}
     |> build_body(spec)
-    |> build_params(spec)
+    |> build_params(spec) |> IO.inspect(label: "26")
     |> validate_body(spec)
     |> validate_params(spec)
     |> add_typecheck(spec)
